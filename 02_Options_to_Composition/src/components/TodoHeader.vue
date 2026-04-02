@@ -1,5 +1,6 @@
 <!-- 
- props와 emit이 존재하는경우에는 setup(props,{emit}) 의 인자값으로 넣어준다. -->
+ props와 emit이 존재하는경우에는 setup(props,{emit}) 의 인자값으로 넣어준다.
+ 변수 접근 방법이 달라짐 -->
 
 <script>
 export default {
