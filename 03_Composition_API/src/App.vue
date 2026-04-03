@@ -21,6 +21,7 @@ import TodoList from './components/TodoList.vue';
 // 입력창 컴포넌트를 가져온다.
 import TodoInput from './components/TodoInput.vue';
 // localStorage에 사용할 키 이름을 상수로 정의한다.
+const STORAGE_KEY = 'vue-todo';
 
 // todo는 전체 할 일 목록을 저장하는 반응형 배열이다.
 const todo = ref([]);
@@ -80,9 +81,27 @@ const clearCompleted = () => {
 };
 
 // loadTodos는 localStorage에서 저장된 목록을 읽어 todo 상태에 복원한다.
+const loadTodos = () => {
+  const data = localStorage.getItem(STORAGE_KEY);
 
+  if (data) {
+    todo.value = JSON.parse(data);
+  }
+};
 // 컴포넌트가 화면에 마운트되면 저장된 할 일 목록을 먼저 불러온다.
+onMounted(() => {
+  loadTodos();
+});
+//todo의 변화를 감시하고 최신 todo를 브라우저에 저장하기 위해서 watch 사용
+//
 
+watch(
+  todo,
+  (newValue) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newValue));
+  },
+  { deep: true }
+);
 // todo 값이 바뀔 때마다 localStorage에 최신 상태를 문자열로 저장한다.
 </script>
 
