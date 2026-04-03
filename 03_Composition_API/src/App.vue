@@ -20,6 +20,9 @@ import TodoHeader from './components/TodoHeader.vue';
 import TodoList from './components/TodoList.vue';
 // 입력창 컴포넌트를 가져온다.
 import TodoInput from './components/TodoInput.vue';
+// 수정 모달 컴포넌트 가져오기
+import EditModal from './components/EditModal.vue';
+
 // localStorage에 사용할 키 이름을 상수로 정의한다.
 const STORAGE_KEY = 'vue-todo';
 
@@ -93,7 +96,7 @@ onMounted(() => {
   loadTodos();
 });
 //todo의 변화를 감시하고 최신 todo를 브라우저에 저장하기 위해서 watch 사용
-//
+//// todo 값이 바뀔 때마다 localStorage에 최신 상태를 문자열로 저장한다.
 
 watch(
   todo,
@@ -102,7 +105,22 @@ watch(
   },
   { deep: true }
 );
-// todo 값이 바뀔 때마다 localStorage에 최신 상태를 문자열로 저장한다.
+
+//수정하기모달의 상태추구ㅏ
+const isEditOpen = ref(false);
+const editingItem = ref(null);
+const openEditModal = (item) => {
+  editingItem.value = { ...item };
+  isEditOpen.value = true;
+};
+
+const updateTodoMsg = (updatedItem) => {
+  const target = todo.value.find((v) => v.id === updatedItem.id);
+  if (target) {
+    target.msg = updatedItem.msg;
+  }
+  isEditOpen.value = false;
+};
 </script>
 
 <template>
@@ -125,6 +143,7 @@ watch(
       :items="computedTodo"
       @delete-todo="deleteTodo"
       @toggle-todo="toggleTodo"
+      @edit-todo="openEditModal"
     />
 
     <!-- 완료된 항목이 1개 이상 있을 때만 일괄 삭제 버튼을 보여준다. -->
@@ -133,5 +152,11 @@ watch(
         완료 항목 전체 삭제
       </button>
     </div>
+    <EditModal
+      v-if="isEditOpen"
+      :item="editingItem"
+      @close="isEditOpen = false"
+      @save="updateTodoMsg"
+    />
   </div>
 </template>

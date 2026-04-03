@@ -7,6 +7,8 @@
   4단계. 삭제 버튼 클릭 시 deleteTodo()가 실행되어 부모에게 delete-todo 이벤트를 전달한다.
   5단계. 완료된 항목에는 완료 스타일 클래스를 적용한다.
   6단계. 출력할 목록이 없으면 비어 있음 메시지를 출력한다.
+
+  수정기능 추가 emit..!!
 -->
 
 <script setup>
@@ -20,7 +22,7 @@ const props = defineProps({
 });
 
 // 부모에게 보낼 이벤트를 선언한다.
-const emit = defineEmits(['toggle-todo', 'delete-todo']);
+const emit = defineEmits(['toggle-todo', 'delete-todo', 'edit-todo']);
 
 // deleteTodo는 삭제할 항목의 id를 부모에게 전달한다.
 const deleteTodo = (id) => {
@@ -30,6 +32,9 @@ const deleteTodo = (id) => {
 // toggleTodo는 완료 상태를 바꿀 항목의 id를 부모에게 전달한다.
 const toggleTodo = (id) => {
   emit('toggle-todo', id);
+};
+const editTodo = (id) => {
+  emit('edit-todo', id);
 };
 </script>
 
@@ -55,7 +60,7 @@ const toggleTodo = (id) => {
       </label>
 
       <span class="todo-item-text">{{ item.msg }}</span>
-
+      <button class="todo-edit-btn" @click="editTodo(item)">수정</button>
       <button class="todo-delete-btn" @click="deleteTodo(item.id)">삭제</button>
     </div>
   </section>
