@@ -75,6 +75,9 @@ const toggleTodo = (id) => {
   if (target) target.completed = !target.completed;
 };
 // clearCompleted는 완료된 항목을 한 번에 제거한다.
+const clearCompleted = () => {
+  todo.value = todo.value.filter((v) => !v.completed);
+};
 
 // loadTodos는 localStorage에서 저장된 목록을 읽어 todo 상태에 복원한다.
 
@@ -107,7 +110,9 @@ const toggleTodo = (id) => {
 
     <!-- 완료된 항목이 1개 이상 있을 때만 일괄 삭제 버튼을 보여준다. -->
     <div class="todo-actions">
-      <button class="todo-clear-btn">완료 항목 전체 삭제</button>
+      <button class="todo-clear-btn" @click="clearCompleted">
+        완료 항목 전체 삭제
+      </button>
     </div>
   </div>
 </template>
