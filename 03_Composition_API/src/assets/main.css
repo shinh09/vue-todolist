@@ -175,6 +175,21 @@ body {
   margin-top: 18px;
 }
 
+.todo-tab li {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background-color: #e5e7eb;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.todo-tab li.active {
+  background-color: #6366f1;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
 /* 모바일 화면에서 입력창과 버튼을 세로 배치한다. */
 @media (max-width: 640px) {
   .todo-app {
