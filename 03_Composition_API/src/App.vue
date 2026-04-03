@@ -26,8 +26,10 @@ import TodoInput from './components/TodoInput.vue';
 const todo = ref([]);
 
 // current는 현재 선택된 탭 상태를 저장한다.
-const current = ref('all');
 // all = 전체 보기, completed = 완료만 보기
+const current = ref('all');
+
+// filteredTodo는 current 값에 따라 실제 화면에 보여줄 목록을 계산한다.
 const computedTodo = computed(() => {
   if (current.value === 'all') {
     return todo.value;
@@ -36,22 +38,25 @@ const computedTodo = computed(() => {
   }
 });
 
-// filteredTodo는 current 값에 따라 실제 화면에 보여줄 목록을 계산한다.
-
 // completedCount는 완료된 할 일 개수를 계산한다.
+const completedCount = computed(() => {
+  return todo.value.filter((v) => v.completed).length;
+});
 
 // remainingCount는 아직 완료되지 않은 할 일 개수를 계산한다.
+const remainingCount = computed(() => {
+  return todo.value.filter((v) => !v.completed).length;
+});
 
 // addTodo는 입력받은 문자열을 새 할 일 객체로 만들어 목록에 추가한다.
 const addTodo = (inputMsg) => {
   const item = {
     id: Math.random(),
-    msg: inputMsg,
+    msg: inputMsg.trim(), //공백처리
     completed: false,
   };
   todo.value.push(item);
 };
-// 공백만 입력한 경우에는 추가하지 않고 함수를 종료한다.
 
 // 새 할 일 객체를 생성한다.
 
@@ -88,9 +93,9 @@ const toggleTodo = (id) => {
 
     <!-- 할 일 통계 정보를 간단히 보여준다. -->
     <div class="todo-summary">
-      <p>전체 0개</p>
-      <p>완료 0개</p>
-      <p>남은 일 0 개</p>
+      <p>전체 {{ todo.length }}개</p>
+      <p>완료 {{ completedCount }}개</p>
+      <p>남은 일 {{ remainingCount }}개</p>
     </div>
 
     <!-- 현재 탭에 맞는 목록을 출력한다. -->
