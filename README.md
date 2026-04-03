@@ -31,8 +31,8 @@ Options API → Composition API → <script setup> 방식으로 리팩토링한 
 
 ### 추가기능: 03_Composition_API
 
-(추가) 수정하기 모달추가 (teleport활용)
-(추가) local DB storage 구현
+- (추가) 수정하기 모달추가 (teleport활용)
+- (추가) local DB storage 구현
 
 ### 화면 미리보기
 
