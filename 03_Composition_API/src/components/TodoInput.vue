@@ -1,87 +1,36 @@
+<script setup>
+// Vue의 ref를 가져온다.
+import { ref } from 'vue';
+
+// 부모로 보낼 이벤트를 선언한다.
+const emit = defineEmits(['add-todo']);
+
+// inputMsg는 사용자가 입력하는 텍스트를 저장하는 반응형 변수이다.
+const inputMsg = ref('');
+
+// addTodo는 현재 입력값을 부모에게 전달하고 입력창을 초기화한다.
+const addTodo = () => {
+  const value = inputMsg.value;
+
+  if (!value || !value.trim()) return; //중복방지
+
+  emit('add-todo', value.trim());
+
+  inputMsg.value = '';
+};
+</script>
+
 <template>
-  <div class="item">
-    <i>
-      <slot name="icon"></slot>
-    </i>
-    <div class="details">
-      <h3>
-        <slot name="heading"></slot>
-      </h3>
-      <slot></slot>
-    </div>
+  <div class="todo-input-wrap">
+    <!-- keydown -> keyup : input 두번 렌더링 문제 해결 -->
+    <input
+      v-model="inputMsg"
+      type="text"
+      class="todo-input"
+      placeholder="할 일을 입력하세요."
+      @keyup.enter="addTodo"
+    />
+
+    <button class="todo-add-btn" type="button" @click="addTodo">등록</button>
   </div>
 </template>
-
-<style scoped>
-.item {
-  margin-top: 2rem;
-  display: flex;
-  position: relative;
-}
-
-.details {
-  flex: 1;
-  margin-left: 1rem;
-}
-
-i {
-  display: flex;
-  place-items: center;
-  place-content: center;
-  width: 32px;
-  height: 32px;
-
-  color: var(--color-text);
-}
-
-h3 {
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-  color: var(--color-heading);
-}
-
-@media (min-width: 1024px) {
-  .item {
-    margin-top: 0;
-    padding: 0.4rem 0 1rem calc(var(--section-gap) / 2);
-  }
-
-  i {
-    top: calc(50% - 25px);
-    left: -26px;
-    position: absolute;
-    border: 1px solid var(--color-border);
-    background: var(--color-background);
-    border-radius: 8px;
-    width: 50px;
-    height: 50px;
-  }
-
-  .item:before {
-    content: ' ';
-    border-left: 1px solid var(--color-border);
-    position: absolute;
-    left: 0;
-    bottom: calc(50% + 25px);
-    height: calc(50% - 25px);
-  }
-
-  .item:after {
-    content: ' ';
-    border-left: 1px solid var(--color-border);
-    position: absolute;
-    left: 0;
-    top: calc(50% + 25px);
-    height: calc(50% - 25px);
-  }
-
-  .item:first-of-type:before {
-    display: none;
-  }
-
-  .item:last-of-type:after {
-    display: none;
-  }
-}
-</style>

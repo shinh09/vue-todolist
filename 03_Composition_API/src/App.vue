@@ -65,7 +65,10 @@ const deleteTodo = (id) => {
   todo.value = todo.value.filter((v) => v.id !== id);
 };
 // toggleTodo는 전달받은 id와 일치하는 항목의 completed 값을 true/false로 뒤집는다.
-
+const toggleTodo = (id) => {
+  const target = todo.value.find((v) => v.id === id);
+  if (target) target.completed = !target.completed;
+};
 // clearCompleted는 완료된 항목을 한 번에 제거한다.
 
 // loadTodos는 localStorage에서 저장된 목록을 읽어 todo 상태에 복원한다.
@@ -78,10 +81,10 @@ const deleteTodo = (id) => {
 <template>
   <div class="todo-app">
     <!-- 상단 제목과 탭 UI를 출력한다. -->
-    <TodoHeader />
+    <TodoHeader :current="current" @update-tab="updateTab" />
 
     <!-- 입력창과 등록 버튼 UI를 출력한다. -->
-    <TodoInput />
+    <TodoInput @add-todo="addTodo" />
 
     <!-- 할 일 통계 정보를 간단히 보여준다. -->
     <div class="todo-summary">
@@ -91,11 +94,14 @@ const deleteTodo = (id) => {
     </div>
 
     <!-- 현재 탭에 맞는 목록을 출력한다. -->
-    <TodoList />
+    <TodoList
+      :items="computedTodo"
+      @delete-todo="deleteTodo"
+      @toggle-todo="toggleTodo"
+    />
 
     <!-- 완료된 항목이 1개 이상 있을 때만 일괄 삭제 버튼을 보여준다. -->
-    <div>
-      0" class="todo-actions">
+    <div class="todo-actions">
       <button class="todo-clear-btn">완료 항목 전체 삭제</button>
     </div>
   </div>
