@@ -8,12 +8,12 @@ Options API → Composition API → <script setup> 방식으로 리팩토링한 
 - vue2문법을 활용해서 기본 기능을 구현해보기
 - data,methods 등의 옵션을 활용
 
-  2.Composition API - setup()
+2.Composition API - setup()
 
 - setup()을 익혀서 옵션기반에서 함수로 각각 분리하기
 - ref, reactive오 반응형 데이터
 
-  3.Composition API - <script setup>
+3.Composition API - <script setup>
 
 - script setup문법을 활용해서 간결한 코드 만들기
 - props,emit 를 직관적으로 구성
